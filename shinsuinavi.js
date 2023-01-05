@@ -509,6 +509,7 @@ function addBPlist(no,BP,markerid){
   elemBPselect.dataset.subrivercode = BP.SubRiverCode;
   elemBPselect.dataset.markerid = markerid;
   elemBPselect.dataset.bptime = bptime;
+  elemBPselect.dataset.layerid = markerid;
 
 };
 
@@ -669,13 +670,18 @@ function loadBPTile(){
 
   
 
+  const lyrId = selectBP.dataset.layerid;
+
+  let lyrLocation = {lat:selectBP.dataset.bplat, lng:selectBP.dataset.bplon};
 
 
   // post message
 
   parent.postMessage({
     type: "loadBPTile",
-    bpTileUrl:bpurl
+    bpTileUrl: bpurl,
+    lyrId: lyrId,
+    lyrLocation: lyrLocation
   }, "*");
 
 };
@@ -938,7 +944,7 @@ reearth.on("message", (msg) => {
   console.log(msg); 
   
   if (msg.type === "mouseClick") {
-    reearth.on('click',(mousedata) => {
+    reearth.on('doubleclick',(mousedata) => {
       reearth.ui.postMessage({ 
         type: "mousedata",
         payload: mousedata
@@ -946,7 +952,7 @@ reearth.on("message", (msg) => {
     })
   } else if(msg.type == "mouseCancel"){
     console.log("cancel");
-    reearth.on('click',() => {})
+    reearth.on('doubleclick',() => {})
   }else if(msg.type == "showRangeLayer"){
  
     let tileList = reearth.scene.property.tiles;
@@ -1006,7 +1012,21 @@ reearth.on("message", (msg) => {
  
   }else if(msg.type == "loadBPTile"){
     let tileList = reearth.scene.property.tiles;
+/*
+    //zoom to layer
+    const lyr = reearth.layers.findById(msg.lyrId);
+    reearth.camera.flyTo({
+        lat: +msg.lyrLocation.lat,          // degrees
+        lng: +msg.lyrLocation.lng,            // degrees
+        height: 200
+      }, {
+        duration:1   // seconds
+      });
 
+    
+*/
+
+    // load Tile
     let newTileList = [];
     let tileFlag =false;
     for (i of tileList){
