@@ -2,7 +2,7 @@ id: reearth-PLATEAU-shinsuinavi
 name: 浸水ナビプラグイン
 version: 1.0.0
 extensions:
-  - id: shinsui
+  - id: shinsuinavi
     type: widget
     name: 浸水ナビウィジェット
     schema:
