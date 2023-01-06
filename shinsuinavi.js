@@ -141,6 +141,9 @@ input:checked + .tab_class {
 .content-icon{
   display:inline-block;
 }
+.input-wrapper1{
+  margin-left:10px;
+}
 
 .contents{
   padding:4px 24px 4px;
@@ -248,9 +251,9 @@ input:checked + .tab_class + .content_class {
         <div class="content_class">
           
           <div class="content-input content">
-              <span">①降雨規模の選択</span>
+            <span">①降雨規模の選択</span>
 
-            <div class="input-from">
+            <div class="input-wrapper1">
               <select name="rangelayer" id="level-select" onchange="checkRangeLayer()">
                 <option value="L2">L2:想定最大規模</option>
                 <option value="L1">L1:計画規模</option>
@@ -265,10 +268,10 @@ input:checked + .tab_class + .content_class {
             </div> 
 
             <hr>
-            <div class="input-from">
+            <div>
               <span">②地点を選択</span>
               <p style="font-size:3px; margin:0px 10px;">下のアイコンをクリックし、マップをダブルクリックすると、座標値を取得します。</p>
-                
+            
               <div class="location-wrapper">
                 <button class="btn-location" onclick="getLocation()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="" height="16" viewBox="0 0 16 16" fill="none">
@@ -284,8 +287,10 @@ input:checked + .tab_class + .content_class {
               
               <div align="center">
                 <input type="button" id="btn-get-bp" value="破堤地点の取得" align="center" onclick="getBP()">
+                <p id ="run_text" style="margin:0px 10px; display:none"><font color="red" size="1">破堤点取得中。しばらくお待ちください。</font></p>
                 <p style="font-size:3px; margin:0px 10px;">（地点の取得には時間がかかる場合があります。）</p>
                 
+                <p id="alertText" style="font-size:3px; margin:0px 10px; display:none;"><font color="red">座標を入力してください。</font></p>
               </div>
             <div class="contents-box">
 
@@ -335,7 +340,7 @@ input:checked + .tab_class + .content_class {
                 <div class="contents">
                   <div class="info" style="display:flex;">
                     <div style="width: 140px; margin-right:10px;">登録河川名</div>
-                    <div><span id="info-bpriver"></span></div>
+                    <div><span id="info-bpriver" data-oldlyrid></span></div>
                   </div>
                   <div class="info" style="display:flex">
                     <div style="width: 80px;margin-right: 20px;">河口からの距離</div>
@@ -346,10 +351,14 @@ input:checked + .tab_class + .content_class {
 
               </div>
             </div>
+
+              <div align="center">
+                <input type="button" value="検索のクリア" align="center" id="btn-clear" onclick="clearContents()">
+              </div>
           </div>
         </div>
         <input type="radio" name="tab_name" id="tab3">
-        <label class="tab_class" for="tab3">アニメーション設定</label>
+        <label class="tab_class" for="tab3">浸水アニメーション</label>
 
         <div class="content_class">
 
@@ -361,6 +370,15 @@ input:checked + .tab_class + .content_class {
           </div>
 
 -->
+
+
+          
+          <div id="bp-name">
+            <p id="alertTextbp1" style="font-size:15px; margin:0px 10px;"><font color="red">破堤点を選択してください。</font></p>
+            
+            <p id="alertTextbp2" style="font-size:15px; margin:0px 10px; display:none"><font color="black">破堤点：</font></p>
+            
+          </div>
           <div style="margin:10px 0px">
             破堤から<span id="spantime"></span>後
           </div>
@@ -474,23 +492,32 @@ function checkRangeLayer(){
 };
 
 async function getBP(){
-
-  document.getElementById('btn-get-bp').disabled = true;
-  console.log("getBP start");
   const xyValue = document.getElementById("inputXY").value;
-  await refleshBPList(); 
+
+  if (!xyValue){
+    document.getElementById("alertText").style="display:block;"
+  }else{
+
+    document.getElementById("alertText").style="display:none;"
+    document.getElementById("run_text").style="display:block;"
+
+
+    document.getElementById('btn-get-bp').disabled = true;
+    await refleshBPList(); 
+    
   
- 
-  let url =  "https://suiboumap.gsi.go.jp/shinsuimap/Api/Public/GetBreakPoint?lon=" + xyValue.split(",")[0] + "&lat=" + xyValue.split(",")[1];
-  await fetchData(url).then(d => {
-    if (!d) return;
-    const folderId = document.getElementById("BP-listTable").dataset.folderId;
-    for (let i = 0; i < d.length; i++) {
-      const bpMarkerId = addBPmarker(d[i],folderId);
-      addBPlist(i,d[i],bpMarkerId);
-    }
-  document.getElementById('btn-get-bp').disabled = false;
-  });
+    let url =  "https://suiboumap.gsi.go.jp/shinsuimap/Api/Public/GetBreakPoint?lon=" + xyValue.split(",")[0] + "&lat=" + xyValue.split(",")[1];
+    await fetchData(url).then(d => {
+      if (!d) return;
+      const folderId = document.getElementById("BP-listTable").dataset.folderId;
+      for (let i = 0; i < d.length; i++) {
+        const bpMarkerId = addBPmarker(d[i],folderId);
+        addBPlist(i,d[i],bpMarkerId);
+      }
+    document.getElementById('btn-get-bp').disabled = false;
+    document.getElementById("run_text").style="display:none;"
+    });
+  }
   
   
 }
@@ -498,12 +525,18 @@ async function getBP(){
 async function refleshBPList(){
   
   // reflesh marker folder
-  const folderId = document.getElementById("BP-listTable").dataset.folderId;
-  let oldFolder = reearth.layers.findById(folderId);
-  console.log(oldFolder)
-  for (i of oldFolder.children){
-    reearth.layers.hide(i.id)
+  const oldFolder = reearth.layers.findAll(e => e.title ==="_pluginBPFolder");
+  if(oldFolder){
+    for (i of oldFolder){
+      for (j of i.children){
+        reearth.layers.hide(j.id);
+      }
+    };
+
   }
+  
+  
+
 
 
   NewFolder = reearth.layers.add({
@@ -659,7 +692,7 @@ function addBPmarker(BP,folderId){
         pointOutlineColor:"#fff",
         pointSize:10,
         labelText: BP.BPName,
-        labelPosition:"bottom",
+        labelPosition:"top",
         labelTypography:{
           "fontFamily": null,
           "fontWeight": null,
@@ -702,6 +735,26 @@ function selectBPRadio(elem){
   document.getElementById('btn-search').disabled = false;
   document.getElementById('info-bpriver').innerHTML = elem.dataset.rivername;
   document.getElementById('info-bplocation').innerHTML = elem.dataset.bplocation;
+
+  // 選択BPの取得
+  const bPointList = document.getElementsByName("break-point");
+  const selectBP = Array.from(bPointList).find(radio => radio.checked);
+  
+
+    // 新旧レイヤID 
+  let oldLyrId = document.getElementById("info-bpriver").dataset.oldlyrid;
+  const lyrId = selectBP.dataset.layerid;
+  document.getElementById("info-bpriver").dataset.oldlyrid = lyrId;
+  
+
+  let lyrLocation = {lat:selectBP.dataset.bplat, lng:selectBP.dataset.bplon};
+  
+  parent.postMessage({
+    type: "selectBP",
+    lyrLocation: lyrLocation,
+    oldLyrId: oldLyrId,
+    lyrId: lyrId
+  }, "*");
 };
 
 
@@ -745,6 +798,11 @@ function loadBPTile(){
   document.getElementById("tab3").checked =true;
   inputTime.value=1
   document.getElementById("spantime").innerHTML = bpTime[1] + "分";
+
+  document.getElementById("alertTextbp1").style="display:none";
+  document.getElementById("alertTextbp2").style="display:block";
+  document.getElementById("alertTextbp2").innerHTML = "破堤点：" + selectBP.dataset.bpname +"(" + selectBP.dataset.rivername + "  " + selectBP.dataset.bplocation + ")";
+
   
 
   
@@ -761,10 +819,7 @@ function loadBPTile(){
 
   parent.postMessage({
     type: "loadBPTile",
-    bpTileUrl: bpurl,
-    oldLyrId: oldLyrId,
-    lyrId: lyrId,
-    lyrLocation: lyrLocation
+    bpTileUrl: bpurl
   }, "*");
 
 };
@@ -832,6 +887,38 @@ async function fetchData(url) {
   });
 };
 
+
+function clearContents(){
+  document.getElementById("check-rangelayer").checked = false;
+  document.getElementById("inputXY").value = "";
+
+  //BPリストのリセット
+  refleshBPList()
+  document.getElementById("btn-search").disabled = true;
+  
+  //破堤点情報のリセット
+  document.getElementById("info-bpriver").innerHTML = "";
+  document.getElementById("info-bplocation").innerHTML = "";
+
+
+  //アニメーションテキストのリセット
+  document.getElementById("alertTextbp1").style = "display:block";
+  document.getElementById("alertTextbp2").style = "display:none";
+  document.getElementById("spantime").innerHTML = "";
+  
+
+  //タイムバーrangeのリセット
+  let inputTimeList = document.getElementById("time-list");
+  clearSelect(inputTimeList);
+
+
+  // post message
+
+  parent.postMessage({
+    type: "clear"
+  }, "*");
+  
+}
  
 
 function openWrapper(){
@@ -906,52 +993,15 @@ function openWrapper(){
     }else if(e.data.type =="mousedata"){
       let locateY, locateX;
       let mousedata = e.data.payload;
-      console.log(mousedata);
 
       locateY = parseFloat(mousedata.lat.toFixed(5));
       locateX = parseFloat(mousedata.lng.toFixed(5));
  
-      const selected = reearth.layers.layers.find(e => e.title === '_selectedPoint');
-      if(selected === undefined){
-        let startMarker = reearth.layers.add({
-          id:"startPoint",
-          extensionId: "marker",
-          type:"marker",
-          isVisible: true,
-          title: "_selectedPoint",
-          property: { 
-            default: {
-              location:{
-                lat:locateY,
-                lng:locateX
-              },
-              heightReference:"relative",
-              height:15,
-              label:false,
-              style:"point",
-              pointColor:"#ff0000",
-              pointSize:20,
-              labelText: ""
-            }
-          }
-        });
-        document.getElementById("inputXY").dataset.startLayerId = startMarker;
-      }else{
-        reearth.layers.overrideProperty(selected.id, {
-          default: {
-            location: {
-              lat: locateY,
-              lng: locateX
-            }
-          }
-        });
-      }
       document.getElementById("inputXY").value=locateX + "," + locateY;
       
 
 
 
-      parent.postMessage({ type: "mouseCancel" }, "*");
     }
 
   
@@ -1025,28 +1075,64 @@ function send() {
 
  
 reearth.on("message", (msg) => {
-  console.log(msg); 
   
   if (msg.type === "mouseClick") {
+    
     reearth.on('doubleclick',(mousedata) => {
+
+      locateY = parseFloat(mousedata.lat.toFixed(5));
+      locateX = parseFloat(mousedata.lng.toFixed(5));
+ 
+
+      const selected = reearth.layers.find(e => e.title === '_selectedPoint');
+      if(selected === undefined){
+        let startMarker = reearth.layers.add({
+          id:"startPoint",
+          extensionId: "marker",
+          type:"marker",
+          isVisible: true,
+          title: "_selectedPoint",
+          property: { 
+            default: {
+              location:{
+                lat:locateY,
+                lng:locateX
+              },
+              heightReference:"relative",
+              height:15,
+              label:false,
+              style:"point",
+              pointColor:"#ff0000",
+              pointSize:20,
+              labelText: ""
+            }
+          }
+        });
+      }else{
+        reearth.layers.overrideProperty(selected.id, {
+          default: {
+            location: {
+              lat: locateY,
+              lng: locateX
+            }
+          }
+        });
+        reearth.layers.show(selected.id);
+      }
+
+
       reearth.ui.postMessage({ 
         type: "mousedata",
         payload: mousedata
       }, "*");
     })
-  } else if(msg.type == "mouseCancel"){
-    console.log("cancel");
-    reearth.on('doubleclick',() => {})
   }else if(msg.type == "showRangeLayer"){
  
     let tileList = reearth.scene.property.tiles;
     let newTileList = [];
-    let tileFlag =false;
-        console.log(tileFlag)
     for (i of tileList){
       if (i.id === "shinsuiRangeTile"){
         tileFlag = true;
-        console.log(tileFlag)
       }else{
         newTileList.push(i);
       }
@@ -1064,69 +1150,14 @@ reearth.on("message", (msg) => {
 
 
 
-/*
-    let rangeTile = tileList.includes((v) => v.tile_url="https://suiboumap.gsi.go.jp/shinsuimap/Tile/rangelayer/");
-    console.log(rangeTile);
-    console.log(tileList);
-
-    if (rangeTile){
-      const tileIndex = tileList.indexOf(rangeTile);
-      tileList(tileIndex).tile_url = "https://suiboumap.gsi.go.jp/shinsuimap/Tile/rangelayer/" + msg.lebel + "/{z}/{x}/{y}.png"
-      
-      reearth.scene.overrideProperty({
-        tiles: tileList
-      }); 
- 
-    }else{
-      const newTile = {
-        id:"shinsuiRangeTile",
-        tile_type:"url",
-        tile_url:"https://suiboumap.gsi.go.jp/shinsuimap/Tile/rangelayer/" + msg.lebel + "/{z}/{x}/{y}.png",
-        tile_opacity:0.7
-      };
-      tileList.push(newTile);
-
-      reearth.scene.overrideProperty({
-        tiles: tileList
-      });
-      
-
-    }  
-    */
  
   }else if(msg.type == "loadBPTile"){
     let tileList = reearth.scene.property.tiles;
 
-    if (msg.lyrLocation){
-
-      //zoom to layer
-      reearth.camera.flyTo({
-          lat: +msg.lyrLocation.lat,          // degrees
-          lng: +msg.lyrLocation.lng,            // degrees
-          height: 500
-        }, {
-          duration:1   // seconds
-        });
-
-      
-      //change point color
-      console.log(msg);
-      reearth.layers.overrideProperty(msg.oldLyrId,{
-        default:{
-          pointColor: "#0000ff"
-        }
-      });
-      reearth.layers.overrideProperty(msg.lyrId,{
-        default:{
-          pointColor: "#f3f71c"
-        }
-      });
-    }
 
 
     // load Tile
     let newTileList = [];
-    let tileFlag =false;
     for (i of tileList){
       if (i.id === "shinsuiBPTile"){
         // i.tile_url = msg.bpTileUrl;
@@ -1144,49 +1175,43 @@ reearth.on("message", (msg) => {
     newTileList.push(newTile);
 
     
-    console.log(newTileList);
     reearth.scene.overrideProperty({
       tiles: newTileList
     });
 
 
 
-    /*
-    console.log("load BP tile");
-    const isAllIncludes = (arr, target) => arr.every(el => target.includes(el));
-    let bpTile
-
-    let tileList =reearth.scene.property.tiles;
-    for (tile of tileList){
-      console.log(tile);
-      if(isAllIncludes(['https://suiboumap.gsi.go.jp/shinsuimap/Tile/rangelayer/', 'm/{z}/{x}/{y}.png'], tile.tile_url)){
-        bpTile = tile;
-      }
-    };  
-
-    console.log(bpTile);
-    if (bpTile){
-      const tileIndex = tileList.indexOf(bpTile);
-      tileList(tileIndex).tile_url = msg.bpTileUrl;
-
-      reearth.scene.overrideProperty({
-        tiles: tileList
-      });
  
-    }else{
-      const newTile = {
-        id:"shinsuiBPTile",
-        tile_type:"url",
-        tile_url: msg.bpTileUrl,
-        tile_opacity:0.7
-      };
-      // tileList.add(newTile);
+  }else if(msg.type == "selectBP"){
 
-      reearth.scene.overrideProperty({
-        tiles: newTile
+    if (msg.lyrLocation){
+
+      //zoom to layer
+      reearth.camera.flyTo({
+          lat: +msg.lyrLocation.lat,          // degrees
+          lng: +msg.lyrLocation.lng,            // degrees
+          height: 1000
+        }, {
+          duration:1   // seconds
+        });
+
+      
+      //change point color
+      reearth.layers.overrideProperty(msg.oldLyrId,{
+        default:{
+          pointColor: "#0000ff"
+        }
       });
-    }  
-    */
+      reearth.layers.overrideProperty(msg.lyrId,{
+        default:{
+          pointColor: "#f3f71c"
+        }
+      });
+    }
+
+
+
+
  
   }else if(msg.type == "hideRangeLayer"){
     let tileList = reearth.scene.property.tiles;
@@ -1203,6 +1228,35 @@ reearth.on("message", (msg) => {
       tiles: newTileList
     });
 
+
+
+
+  }else if(msg.type == "clear"){
+    let tileList = reearth.scene.property.tiles;
+    let newTileList = [];
+    for (i of tileList){
+      if (i.id === "shinsuiRangeTile" || i.id === "shinsuiBPTile"){
+        i.tile_url="";
+      }else{
+
+        newTileList.push(i);
+      } 
+    }
+    reearth.scene.overrideProperty({
+      tiles: newTileList
+    });
+
+    const selected = reearth.layers.find(e => e.title === '_selectedPoint');
+    if(selected != undefined){
+      reearth.layers.hide(selected.id);
+    }
+      // reflesh marker folder
+    const oldFolder = reearth.layers.findAll(e => e.title ==="_pluginBPFolder")
+    for (i of oldFolder){
+      for (j of i.children){
+        reearth.layers.hide(j.id);
+      }
+    };
 
 
 
