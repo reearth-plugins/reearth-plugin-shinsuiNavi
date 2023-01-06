@@ -19,8 +19,8 @@ reearth.ui.show(`
       background: white;
       text-align: center;
       color: #00BEBE;
-      padding:34.5px 48px 34.5px;
-      
+      padding:14.5px 48px 14.5px;
+      text-align:center;
     }
     .title{
       font-size:14px;
@@ -33,7 +33,10 @@ reearth.ui.show(`
   padding:10px 0px 10px;
   background:#F0F0F0;
 }
-
+#headIcon{
+  display:block;
+  object-fit: contain;
+}
 hr{
   border:1px solid rgba(0,0,0,0.03);
 }
@@ -170,6 +173,11 @@ input:checked + .tab_class {
 .point-name{
    display:inline-block;
 }
+
+#spantime{
+  font-size:20px;
+  margin:0px 10px;
+}
  
 input:checked + .tab_class + .content_class {
   display: block;
@@ -217,12 +225,12 @@ input:checked + .tab_class + .content_class {
       <button type="button" class="close-btn" style="position: absolute; right: 0px; border-radius: 0px;" onclick="openWrapper()"><span role="img" aria-label="close" class="anticon anticon-close"><svg viewBox="64 64 896 896" focusable="false" data-icon="close" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path></svg></span></button>
     </div>
     <div id="header">
-      <div style="float: center">
-        <img id="headIcon" src="https://suiboumap.gsi.go.jp/img/banner_shinsuinavi.jpg" width="32px" height="32px" style="display:block">
+      <p style="text-align:center" >
+        <img id="headIcon" src="https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/img/banner_shinsuinavi.jpg" width="200px" height="50px">
         <span class="title">
         浸水ナビ
         </span>
-      </div>
+      </p>
     </div>
 
     <div id ="contents-wrapper">
@@ -256,9 +264,11 @@ input:checked + .tab_class + .content_class {
               </div>
             </div> 
 
+            <hr>
             <div class="input-from">
               <span">②地点を選択</span>
               <div class="location-wrapper">
+                <p style="font-size:3px; margin:0px 10px;">下のアイコンをクリックし、マップをダブルクリックすると、座標値を取得します。</p>
                 <button class="btn-location" onclick="getLocation()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M12.5 14H9.40874C9.92883 13.5364 10.4193 13.0406 10.8773 12.5156C12.5931 10.5424 13.5 8.46228 13.5 6.5C13.5 5.04131 12.9205 3.64236 11.8891 2.61091C10.8576 1.57946 9.45869 1 8 1C6.54131 1 5.14236 1.57946 4.11091 2.61091C3.07946 3.64236 2.5 5.04131 2.5 6.5C2.5 8.46228 3.40692 10.5424 5.12268 12.5156C5.58068 13.0406 6.07117 13.5364 6.59127 14H3.5C3.36739 14 3.24021 14.0527 3.14645 14.1464C3.05268 14.2402 3 14.3674 3 14.5C3 14.6326 3.05268 14.7598 3.14645 14.8536C3.24021 14.9473 3.36739 15 3.5 15H12.5C12.6326 15 12.7598 14.9473 12.8536 14.8536C12.9473 14.7598 13 14.6326 13 14.5C13 14.3674 12.9473 14.2402 12.8536 14.1464C12.7598 14.0527 12.6326 14 12.5 14ZM8.00002 4.5C8.39558 4.5 8.78226 4.6173 9.11116 4.83706C9.44005 5.05682 9.6964 5.36918 9.84777 5.73463C9.99915 6.10009 10.0388 6.50222 9.96159 6.89018C9.88442 7.27814 9.69393 7.63451 9.41423 7.91421C9.13452 8.19392 8.77816 8.3844 8.3902 8.46157C8.00223 8.53874 7.6001 8.49913 7.23465 8.34776C6.8692 8.19638 6.55684 7.94004 6.33708 7.61114C6.11731 7.28224 6.00002 6.89556 6.00002 6.5C6.00001 6.23736 6.05174 5.97728 6.15225 5.73463C6.25276 5.49198 6.40008 5.2715 6.5858 5.08578C6.77151 4.90006 6.99199 4.75274 7.23465 4.65224C7.4773 4.55173 7.73737 4.5 8.00002 4.5V4.5Z" fill="black"/>
@@ -319,12 +329,12 @@ input:checked + .tab_class + .content_class {
               </div>
               <div>
                 <div class="contents">
-                  <div class="info" style="display:flex;height:22px">
-                    <div style="margin-right:auto">登録河川名</div>
+                  <div class="info" style="display:flex;">
+                    <div style="width: 140px; margin-right:10px;">登録河川名</div>
                     <div><span id="info-bpriver"></span></div>
                   </div>
                   <div class="info" style="display:flex">
-                    <div style="margin-right:auto">河口からの距離</div>
+                    <div style="width: 80px;margin-right: 20px;">河口からの距離</div>
                     <div><span id="info-bplocation"></span></div>
                   </div>
                   
@@ -338,19 +348,62 @@ input:checked + .tab_class + .content_class {
         <label class="tab_class" for="tab3">アニメーション設定</label>
 
         <div class="content_class">
+
+        <!--
           <div id="animation-btn">
             <input type="button" value="再生">
 
             <input type="button" value="停止">
           </div>
-          <div>
+
+-->
+          <div style="margin:10px 0px">
             破堤から<span id="spantime"></span>後
           </div>
           <div>
-            <input type="range" id="input-bptime" list="time-list" step="1" oninput="changeTime(this)">
+            <input type="range" id="input-bptime" list="time-list" step="1" data-oldlyrid ="" oninput="changeTime(this)">
 
             <datalist id="time-list">
             </datalist>
+          </div>
+          <div>
+          <table border="1">
+            <thead>
+              <tr>
+                <th style="text-align:center"  colspan="2">凡例</th>
+              </tr>
+                <tr>
+                    <td style="width:40px;"></td>
+                    <td style="text-align:center">浸水深</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="#DC7ADC"></td>
+                    <td style="text-align:center">20m ~ </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#F285C9"></td>
+                    <td style="text-align:center">10m ~ 20m</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FF9191"></td>
+                    <td style="text-align:center">5m ~ 10m</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFB7B7"></td>
+                    <td style="text-align:center">3m ~ 5m</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#FFD8C0"></td>
+                    <td style="text-align:center">0.5m ~ 3m</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#F7F5A9"></td>
+                    <td style="text-align:center"> ~ 0.5m</td>
+                </tr>
+            </tbody>
+          </table>
           </div>
 
 
@@ -362,6 +415,7 @@ input:checked + .tab_class + .content_class {
         <input type="radio" name="tab_name" id="tab4">
         <label class="tab_class" for="tab4">凡例</label>
         <div class="content_class">
+
           <img id="imgLegend" src="" width="100%" height="100%">
         </div>
 -->
@@ -438,7 +492,13 @@ async function refleshBPList(){
   
   // reflesh marker folder
   const folderId = document.getElementById("BP-listTable").dataset.folderId;
-  reearth.layers.hide(folderId);
+  let oldFolder = reearth.layers.findById(folderId);
+  console.log(oldFolder)
+  for (i of oldFolder.children){
+    reearth.layers.hide(i.id)
+  }
+
+
   NewFolder = reearth.layers.add({
     extensionId: "",
     isVisible: true,
@@ -454,7 +514,11 @@ async function refleshBPList(){
   let tableRef = document.getElementById("BP-table");
   document.querySelector('#bplistTbody').innerHTML="";
 
- 
+   // post message
+
+
+
+
   return true;
 
 };
@@ -636,6 +700,7 @@ function selectBPRadio(elem){
 function loadBPTile(){
   const bPointList = document.getElementsByName("break-point");
 
+  // 選択BPの取得
   const selectBP = Array.from(bPointList).find(radio => radio.checked);
   const selectBPofficeCode = selectBP.dataset.officecode;
   const selectLevel = document.getElementById("level-select").value;
@@ -644,13 +709,12 @@ function loadBPTile(){
   if (selectBPsubrivercode != "_"){
     selectBPrivercode = selectBPrivercode + selectBPsubrivercode
   }
-
   const selectBPbpname = selectBP.dataset.bpname;
   const bpurl ="https://suiboumap.gsi.go.jp/shinsuimap/Tile/" + selectBPofficeCode + "/" + selectLevel + "/" + selectBPrivercode + "/" + selectBPbpname + "/" + selectBPbpname + "_" + "00010" + "m/{z}/{x}/{y}.png"; 
 
+
   //animation setting
   let bpTime = selectBP.dataset.bptime.split(",");
-
   let inputTime = document.getElementById("input-bptime");
   inputTime.dataset.bpurl = "https://suiboumap.gsi.go.jp/shinsuimap/Tile/" + selectBPofficeCode + "/" + selectLevel + "/" + selectBPrivercode + "/" + selectBPbpname + "/" + selectBPbpname + "_";
   inputTime.dataset.bptime = selectBP.dataset.bptime;
@@ -658,21 +722,31 @@ function loadBPTile(){
   inputTime.max = bpTime.length-1;
   inputTime.value = bpTime[1];
 
+
+  //rengeのメモリ設定
   let inputTimeList = document.getElementById("time-list");
 
   clearSelect(inputTimeList);
   for (let i=0; i < bpTime.length; i++){
     let tempValue = (bpTime[i] / bpTime.slice(-1)[0]) * (bpTime.length-1);
     addlist(tempValue,inputTimeList);
-  }
+  } 
 
+
+  //タブ切り替え
   document.getElementById("tab3").checked =true;
-
+  inputTime.value=1
+  document.getElementById("spantime").innerHTML = bpTime[1] + "分";
   
 
+  
+  // 新旧レイヤID 
+  let oldLyrId = inputTime.dataset.oldlyrid;
   const lyrId = selectBP.dataset.layerid;
-
+  inputTime.dataset.oldlyrid = lyrId;
   let lyrLocation = {lat:selectBP.dataset.bplat, lng:selectBP.dataset.bplon};
+
+
 
 
   // post message
@@ -680,6 +754,7 @@ function loadBPTile(){
   parent.postMessage({
     type: "loadBPTile",
     bpTileUrl: bpurl,
+    oldLyrId: oldLyrId,
     lyrId: lyrId,
     lyrLocation: lyrLocation
   }, "*");
@@ -781,13 +856,15 @@ function openWrapper(){
        document.getElementById("headIcon").src = property.header.headIcon;
       document.getElementById("headIcon").style.display = "inline";
      }else{
-      document.getElementById("headIcon").style.display = "none";
+       document.getElementById("headIcon").src = "https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/img/banner_shinsuinavi.jpg";
+       
+      document.getElementById("headIcon").style.display = "inline";
      }
 
      if(property.header.title && !property.header.title==""){
        document.getElementsByClassName("title")[0].innerHTML = property.header.title;
      }else{
-      document.getElementsByClassName("title")[0].innerHTML = "千葉県茂原市河川整備の段階ごとの水害リスク評価";
+      document.getElementsByClassName("title")[0].innerHTML = "浸水ナビ";
      }
    }
  }
@@ -800,6 +877,8 @@ function openWrapper(){
       if (e.source !== parent) return;
       layers = e.source.reearth.layers.layers;
       reearth = e.source.reearth;
+      property = e.data.property;
+      console.log(e.data);
 
       // set BP list folder
       document.getElementById("BP-listTable").dataset.folderId = e.data.folderId;
@@ -814,7 +893,7 @@ function openWrapper(){
         elemImg.style.display = "none"
       }
       */
-      // setHeader();
+      setHeader();
       
     }else if(e.data.type =="mousedata"){
       let locateY, locateX;
@@ -896,17 +975,14 @@ checkRangeLayer()
   const bpFolder = reearth.layers.layers.filter(e => e.title === '_pluginBPFolder');
   let folder
   if (bpFolder === undefined){
-    folder = reearth.layers.add({
-      extensionId: "",
-      isVisible: true,
-      title: "_pluginBPFolder",
-      children: [],
-      tags: [],
-    });
   }else{
     for (let i = 0; i < bpFolder.length; i++) {
-      reearth.layers.hide(bpFolder[i].id);
+      for(l of bpFolder[i].children){
+        reearth.layers.hide(l.id);
+      }
     }
+  };
+
     folder = reearth.layers.add({
       extensionId: "",
       isVisible: true,
@@ -914,7 +990,6 @@ checkRangeLayer()
       children: [],
       tags: [],
     });
-  };
 
 
 
@@ -932,7 +1007,8 @@ function send() {
   reearth.ui.postMessage({
     type: "property",
     layers: reearth.layers.layers,
-    folderId: folder
+    folderId: folder,
+    property: reearth.widget.property
   });
 }
 
@@ -1012,19 +1088,33 @@ reearth.on("message", (msg) => {
  
   }else if(msg.type == "loadBPTile"){
     let tileList = reearth.scene.property.tiles;
-/*
-    //zoom to layer
-    const lyr = reearth.layers.findById(msg.lyrId);
-    reearth.camera.flyTo({
-        lat: +msg.lyrLocation.lat,          // degrees
-        lng: +msg.lyrLocation.lng,            // degrees
-        height: 200
-      }, {
-        duration:1   // seconds
-      });
 
-    
-*/
+    if (msg.lyrLocation){
+
+      //zoom to layer
+      reearth.camera.flyTo({
+          lat: +msg.lyrLocation.lat,          // degrees
+          lng: +msg.lyrLocation.lng,            // degrees
+          height: 500
+        }, {
+          duration:1   // seconds
+        });
+
+      
+      //change point color
+      console.log(msg);
+      reearth.layers.overrideProperty(msg.oldLyrId,{
+        default:{
+          pointColor: "#0000ff"
+        }
+      });
+      reearth.layers.overrideProperty(msg.lyrId,{
+        default:{
+          pointColor: "#f3f71c"
+        }
+      });
+    }
+
 
     // load Tile
     let newTileList = [];
