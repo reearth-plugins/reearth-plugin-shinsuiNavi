@@ -267,8 +267,9 @@ input:checked + .tab_class + .content_class {
             <hr>
             <div class="input-from">
               <span">②地点を選択</span>
+              <p style="font-size:3px; margin:0px 10px;">下のアイコンをクリックし、マップをダブルクリックすると、座標値を取得します。</p>
+                
               <div class="location-wrapper">
-                <p style="font-size:3px; margin:0px 10px;">下のアイコンをクリックし、マップをダブルクリックすると、座標値を取得します。</p>
                 <button class="btn-location" onclick="getLocation()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M12.5 14H9.40874C9.92883 13.5364 10.4193 13.0406 10.8773 12.5156C12.5931 10.5424 13.5 8.46228 13.5 6.5C13.5 5.04131 12.9205 3.64236 11.8891 2.61091C10.8576 1.57946 9.45869 1 8 1C6.54131 1 5.14236 1.57946 4.11091 2.61091C3.07946 3.64236 2.5 5.04131 2.5 6.5C2.5 8.46228 3.40692 10.5424 5.12268 12.5156C5.58068 13.0406 6.07117 13.5364 6.59127 14H3.5C3.36739 14 3.24021 14.0527 3.14645 14.1464C3.05268 14.2402 3 14.3674 3 14.5C3 14.6326 3.05268 14.7598 3.14645 14.8536C3.24021 14.9473 3.36739 15 3.5 15H12.5C12.6326 15 12.7598 14.9473 12.8536 14.8536C12.9473 14.7598 13 14.6326 13 14.5C13 14.3674 12.9473 14.2402 12.8536 14.1464C12.7598 14.0527 12.6326 14 12.5 14ZM8.00002 4.5C8.39558 4.5 8.78226 4.6173 9.11116 4.83706C9.44005 5.05682 9.6964 5.36918 9.84777 5.73463C9.99915 6.10009 10.0388 6.50222 9.96159 6.89018C9.88442 7.27814 9.69393 7.63451 9.41423 7.91421C9.13452 8.19392 8.77816 8.3844 8.3902 8.46157C8.00223 8.53874 7.6001 8.49913 7.23465 8.34776C6.8692 8.19638 6.55684 7.94004 6.33708 7.61114C6.11731 7.28224 6.00002 6.89556 6.00002 6.5C6.00001 6.23736 6.05174 5.97728 6.15225 5.73463C6.25276 5.49198 6.40008 5.2715 6.5858 5.08578C6.77151 4.90006 6.99199 4.75274 7.23465 4.65224C7.4773 4.55173 7.73737 4.5 8.00002 4.5V4.5Z" fill="black"/>
@@ -280,8 +281,11 @@ input:checked + .tab_class + .content_class {
            
             <hr>
             <span>③破堤点の選択</span>
+              
               <div align="center">
-                <input type="button" value="破堤地点の取得" align="center" onclick="getBP()">
+                <input type="button" id="btn-get-bp" value="破堤地点の取得" align="center" onclick="getBP()">
+                <p style="font-size:3px; margin:0px 10px;">（地点の取得には時間がかかる場合があります。）</p>
+                
               </div>
             <div class="contents-box">
 
@@ -310,7 +314,7 @@ input:checked + .tab_class + .content_class {
               </div>
             </div>
               <div align="center">
-                <input type="button" value="浸水シミュレーション実行" align="center" id="btn-search" onclick="loadBPTile()">
+                <input type="button" value="浸水シミュレーション実行" align="center" id="btn-search" onclick="loadBPTile()" disabled=true>
               </div>
             <hr>
             <div class="contents-box">
@@ -470,6 +474,8 @@ function checkRangeLayer(){
 };
 
 async function getBP(){
+
+  document.getElementById('btn-get-bp').disabled = true;
   console.log("getBP start");
   const xyValue = document.getElementById("inputXY").value;
   await refleshBPList(); 
@@ -483,6 +489,7 @@ async function getBP(){
       const bpMarkerId = addBPmarker(d[i],folderId);
       addBPlist(i,d[i],bpMarkerId);
     }
+  document.getElementById('btn-get-bp').disabled = false;
   });
   
   
@@ -688,10 +695,11 @@ function addBPmarker(BP,folderId){
     tags: [],
   },folderId);
   return newBPMarker;
-}
+} 
 
 
 function selectBPRadio(elem){
+  document.getElementById('btn-search').disabled = false;
   document.getElementById('info-bpriver').innerHTML = elem.dataset.rivername;
   document.getElementById('info-bplocation').innerHTML = elem.dataset.bplocation;
 };
