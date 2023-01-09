@@ -286,9 +286,9 @@ input:checked + .tab_class + .content_class {
             <span>③破堤点の選択</span>
               
               <div align="center">
-                <input type="button" id="btn-get-bp" value="破堤地点の取得" align="center" onclick="getBP()">
+                <input type="button" id="btn-get-bp" value="破堤点の取得" align="center" onclick="getBP()">
                 <p id ="run_text" style="margin:0px 10px; display:none"><font color="red" size="1">破堤点取得中。しばらくお待ちください。</font></p>
-                <p style="font-size:3px; margin:0px 10px;">（地点の取得には時間がかかる場合があります。）</p>
+                <p style="font-size:3px; margin:0px 10px;">（破堤点の取得には時間がかかる場合があります。）</p>
                 
                 <p id="alertText" style="font-size:3px; margin:0px 10px; display:none;"><font color="red">座標を入力してください。</font></p>
               </div>
@@ -1025,7 +1025,7 @@ checkRangeLayer()
 </script> 
 
 `,
-  { width: 300, height: 800 });
+  { width: 300, height: 600 });
 
 
 
@@ -1261,6 +1261,6 @@ reearth.on("message", (msg) => {
 
 
   }else if (msg.type === "resize") {
-    reearth.ui.resize?.(msg.expanded ? 32 : 300, msg.expanded ? 32 : 800, msg.expanded ? undefined : true);
+    reearth.ui.resize?.(msg.expanded ? 32 : 300, msg.expanded ? 32 : 600, msg.expanded ? undefined : true);
   }
-});   
+});    
