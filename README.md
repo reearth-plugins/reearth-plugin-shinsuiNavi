@@ -14,9 +14,7 @@
   - ※この読み込みには地点によって数十秒〜数分かかる場合があります。
 - 「③破堤点の選択」から読み込まれた破堤点から確認したいものを選択し、「浸水シミュレーション実行」をクリックすると、その破堤点が破堤した場合の浸水シミュレーション（初期表示は破堤から10分後）が表示されます。
 
-<div align="center">
-<img src="https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/img1.png" alt="属性" title="タイトル">
-</div>
+
 
 ![](https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/img1.png)
 
