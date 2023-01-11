@@ -260,7 +260,7 @@ input:checked + .tab_class + .content_class {
                 <option value="L1b">L1b:降雨規模未区分</option> 
               </select>
               <div class="location-wrapper">
-                <input type="checkbox" id="check-rangelayer" onclick="checkRangeLayer()" checked>
+                <input type="checkbox" id="check-rangelayer" onclick="checkRangeLayer()">
                 
                 <span">検索可能範囲を表示</span>
 
@@ -288,7 +288,7 @@ input:checked + .tab_class + .content_class {
               <div align="center">
                 <input type="button" id="btn-get-bp" value="破堤点の取得" align="center" onclick="getBP()">
                 <p id ="run_text" style="margin:0px 10px; display:none"><font color="red" size="1">破堤点取得中。しばらくお待ちください。</font></p>
-                <p style="font-size:3px; margin:0px 10px;">（破堤点の取得には時間がかかる場合があります。）</p>
+                <p style="font-size:3px;">（破堤点の取得には時間がかかる場合があります。）</p>
                 
                 <p id="alertText" style="font-size:3px; margin:0px 10px; display:none;"><font color="red">座標を入力してください。</font></p>
               </div>
@@ -433,14 +433,7 @@ input:checked + .tab_class + .content_class {
           
 
         </div>
-<!--
-        <input type="radio" name="tab_name" id="tab4">
-        <label class="tab_class" for="tab4">凡例</label>
-        <div class="content_class">
 
-          <img id="imgLegend" src="" width="100%" height="100%">
-        </div>
--->
       </div>
 
 
@@ -510,6 +503,8 @@ async function getBP(){
     await fetchData(url).then(d => {
       if (!d) return;
       const folderId = document.getElementById("BP-listTable").dataset.folderId;
+
+
       for (let i = 0; i < d.length; i++) {
         const bpMarkerId = addBPmarker(d[i],folderId);
         addBPlist(i,d[i],bpMarkerId);
@@ -554,7 +549,6 @@ async function refleshBPList(){
   let tableRef = document.getElementById("BP-table");
   document.querySelector('#bplistTbody').innerHTML="";
 
-   // post message
 
 
 
@@ -849,7 +843,6 @@ function changeTime(elem){
   let bpTime = elem.dataset.bptime.split(",");
 
   let spanTime =  bpTime[elem.value];
-  console.log(spanTime);
 
   let spanHour, spanMinute;
     spanHour = Math.floor(spanTime / 60);
@@ -882,7 +875,6 @@ async function fetchData(url) {
   }).then(r => {
     if (!r) return;
     fetchedData = r;
-    console.log(r);
     return fetchedData;
   });
 };
@@ -973,21 +965,11 @@ function openWrapper(){
       layers = e.source.reearth.layers.layers;
       reearth = e.source.reearth;
       property = e.data.property;
-      console.log(e.data);
 
-      // set BP list folder
-      document.getElementById("BP-listTable").dataset.folderId = e.data.folderId;
-      
+
 
       let elemImg = document.getElementById("imgLegend");
-      /*
-      if (property.data.legend){
-        elemImg.style.display = "block"
-        elemImg.setAttribute('src', property.data.legend);
-      } else{
-        elemImg.style.display = "none"
-      }
-      */
+
       setHeader();
       
     }else if(e.data.type =="mousedata"){
@@ -1008,7 +990,7 @@ function openWrapper(){
   }); 
 
 
-checkRangeLayer()
+//checkRangeLayer()
 
 
 
@@ -1029,32 +1011,6 @@ checkRangeLayer()
 
 
 
- // set BP folder
-  const bpFolder = reearth.layers.layers.filter(e => e.title === '_pluginBPFolder');
-  let folder
-  if (bpFolder === undefined){
-  }else{
-    for (let i = 0; i < bpFolder.length; i++) {
-      for(l of bpFolder[i].children){
-        reearth.layers.hide(l.id);
-      }
-    }
-  };
-
-    folder = reearth.layers.add({
-      extensionId: "",
-      isVisible: true,
-      title: "_pluginBPFolder",
-      children: [],
-      tags: [],
-    });
-
-
-
-
-
- 
-
 
 reearth.on("update", send);
 send();
@@ -1062,10 +1018,14 @@ send();
 
 
 function send() {
+
+
+ 
+
+
   reearth.ui.postMessage({
     type: "property",
     layers: reearth.layers.layers,
-    folderId: folder,
     property: reearth.widget.property
   });
 }
@@ -1160,8 +1120,6 @@ reearth.on("message", (msg) => {
     let newTileList = [];
     for (i of tileList){
       if (i.id === "shinsuiBPTile"){
-        // i.tile_url = msg.bpTileUrl;
-        // tileFlag = true;
       }else{
         newTileList.push(i);
       }
