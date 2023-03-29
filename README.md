@@ -22,3 +22,23 @@
     ![Untitled](https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/img2.png)
 
 - プラグインの最下部にある「検索のクリア」をクリックすると、表示されてたシミュレーションをクリアすることができます。
+
+## 備考
+
+- テストブラウザ環境
+
+## 開発者欄
+
+このプラグインは、Re:Earth公式プラグインです。
+
+![](https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/logo.png)
+
+ソースコードはこちら
+
+- コミュニティ
+
+  - このプラグインを利用したプロジェクトをユーザーコミュニティでシェアしましょう。
+
+  - このプラグインについての不明点がある場合にもここからRe:Earthチームや他の開発者に質問することができます。
+
+  - Discordへのリンクはこちら(https://discord.gg/BXcQhvwqqM)
