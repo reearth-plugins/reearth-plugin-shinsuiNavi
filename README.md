@@ -25,15 +25,17 @@
 
 ## 備考
 
-- テストブラウザ環境
+テストブラウザ環境
+- OS：Mac Monterey 12.6.1
+- ブラウザ：Google Chrome 110.0.5481.100/Safari 15.6.1
 
 ## 開発者欄
 
 このプラグインは、Re:Earth公式プラグインです。
 
-![](https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/logo.png)
+<img src="https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/logo.png" alt= “” width="100" height="100">
 
-ソースコードはこちら
+ソースコードは[こちら](https://github.com/eukarya-inc/reearth-plugin-shinsuiNavi)
 
 - コミュニティ
 
@@ -41,4 +43,4 @@
 
   - このプラグインについての不明点がある場合にもここからRe:Earthチームや他の開発者に質問することができます。
 
-  - Discordへのリンクはこちら(https://discord.gg/BXcQhvwqqM)
+  - Discordへのリンクは[こちら](https://discord.gg/BXcQhvwqqM)
