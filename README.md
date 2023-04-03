@@ -35,7 +35,7 @@
 
 <img src="https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/logo.png" alt= “” width="100" height="100">
 
-ソースコードは[こちら](https://github.com/eukarya-inc/reearth-plugin-shinsuiNavi)
+ソースコードはこちら(https://github.com/eukarya-inc/reearth-plugin-shinsuiNavi)
 
 - コミュニティ
 
@@ -43,4 +43,4 @@
 
   - このプラグインについての不明点がある場合にもここからRe:Earthチームや他の開発者に質問することができます。
 
-  - Discordへのリンクは[こちら](https://discord.gg/BXcQhvwqqM)
+  - Discordへのリンクはこちら(https://discord.gg/BXcQhvwqqM)
