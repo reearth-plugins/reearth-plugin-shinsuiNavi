@@ -33,7 +33,7 @@
 
 このプラグインは、Re:Earth公式プラグインです。
 
-<img src="https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/logo.png" alt= “” width="100" height="100">
+ ![](https://eukarya-inc.github.io/reearth-plugin-shinsuiNavi/src/logo-3.png)
 
 ソースコードはこちら(https://github.com/eukarya-inc/reearth-plugin-shinsuiNavi)
 
