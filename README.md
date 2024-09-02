@@ -1,7 +1,7 @@
 > **NOTE：English text is below**
 
 # 浸水ナビプラグイン
-  ![](https://github.com/reearth-plugins/reearth-plugin-shinsuiNavi/blob/main/src/thumbnail1.png)
+  ![](https://raw.githubusercontent.com/reearth-plugins/reearth-plugin-shinsuiNavi/main/src/thumbnail1.png)
 
 
 ## このプラグインについて
@@ -100,7 +100,7 @@
 
 # Shinsui-Navi plugin
 
-  ![](https://github.com/reearth-plugins/reearth-plugin-shinsuiNavi/blob/main/src/thumbnail1.png)
+  ![](https://raw.githubusercontent.com/reearth-plugins/reearth-plugin-shinsuiNavi/main/src/thumbnail1.png)
 
 
 ## About this plugin
