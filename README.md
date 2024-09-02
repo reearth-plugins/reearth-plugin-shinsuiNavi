@@ -1,9 +1,8 @@
-> [!NOTE]  
-> English text is below
+> **NOTE：English text is below**
 
 # 浸水ナビプラグイン
+  ![](https://github.com/reearth-plugins/reearth-plugin-shinsuiNavi/blob/main/src/thumbnail1.png)
 
-<img width="1383" src="src/thumbnail1.png">
 
 ## このプラグインについて
 
@@ -101,7 +100,8 @@
 
 # Shinsui-Navi plugin
 
-<img width="1383" src="src/thumbnail1.png">
+  ![](https://github.com/reearth-plugins/reearth-plugin-shinsuiNavi/blob/main/src/thumbnail1.png)
+
 
 ## About this plugin
 
